@@ -33,7 +33,7 @@ fn main() {
 
     let (g, c_vec, p_vec, x_vec, e_vec) = MProve::gen_params(opt.anon_list_size, opt.own_list_size);
 
-    let mut proof_size: f64 = 0.0;
+    let mut proof_size = 0;
     let sim_start = Instant::now();
 
     for _i in 0..num_iter {        

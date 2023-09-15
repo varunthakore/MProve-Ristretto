@@ -37,11 +37,9 @@ pub struct MProve {
 
 impl MProve{
 
-    pub fn get_bytes(&self) -> f64 {
+    pub fn get_bytes(&self) -> usize {
         let mut num_points = self.C_vec.len() + self.P_vec.len() + self.C_prime_vec.len() + 1;
         let mut num_scalars = 0;
-
-        println!("num points is {}", num_points);
 
         for ringsig in &self.gamma_vec {
             num_points += ringsig.get_num_points();
@@ -55,13 +53,9 @@ impl MProve{
         
         num_points += 1;
 
-        println!("num points is {}", num_points);
-
-        println!("num scalars is {}", num_scalars);
-
-        let bits = (num_points * 2 + num_scalars) * 255;
+        let bytes = num_points * 4 * 5 * 8 + num_scalars * 32;
         
-        (bits/8) as f64
+        bytes
  
     }
 
