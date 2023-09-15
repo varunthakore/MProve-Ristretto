@@ -12,7 +12,7 @@ This file is part of mProve library
 // based on the paper: <link to paper>
 
 use Errors::{self, MProveSigsError};
-use curve25519_dalek::ristretto::{RistrettoPoint};
+use curve25519_dalek::ristretto::RistrettoPoint;
 use curve25519_dalek::traits::VartimeMultiscalarMul;
 use curve25519_dalek::scalar::Scalar;
 use curve25519_dalek::constants;
@@ -27,6 +27,15 @@ pub struct RingSig{
 }
 
 impl RingSig{
+
+    pub fn get_num_scalars(&self) -> usize {
+        self.s_vec.len()+1
+    }
+
+    pub fn get_num_points(&self) -> usize {
+        0
+    }
+
     pub fn gen_RingSig(
         message: RistrettoPoint,
         pk: &[RistrettoPoint],
@@ -169,6 +178,15 @@ pub struct LSAGSig{
 }
 
 impl LSAGSig{
+
+    pub fn get_num_scalars(&self) -> usize {
+        self.s_vec.len()+1
+    }
+
+    pub fn get_num_points(&self) -> usize {
+        1
+    }
+
     pub fn gen_LSAG(
         message: RistrettoPoint,
         pk: &[RistrettoPoint],
@@ -361,7 +379,7 @@ impl LSAGSig{
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::time::{Instant};
+    use std::time::Instant;
 
     pub fn test_RingSig(n: usize, idx: usize){
         

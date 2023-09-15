@@ -13,7 +13,7 @@ This file is part of MProvelibrary
 use Errors::{self, MProveError};
 use proofs::mprove_sigs::*;
 
-use curve25519_dalek::ristretto::{RistrettoPoint};
+use curve25519_dalek::ristretto::RistrettoPoint;
 use curve25519_dalek::traits::VartimeMultiscalarMul;
 use curve25519_dalek::scalar::Scalar;
 
@@ -36,6 +36,34 @@ pub struct MProve {
 }
 
 impl MProve{
+
+    pub fn get_bytes(&self) -> f64 {
+        let mut num_points = self.C_vec.len() + self.P_vec.len() + self.C_prime_vec.len() + 1;
+        let mut num_scalars = 0;
+
+        println!("num points is {}", num_points);
+
+        for ringsig in &self.gamma_vec {
+            num_points += ringsig.get_num_points();
+            num_scalars += ringsig.get_num_scalars();
+        }
+
+        for lsagsig in &self.sigma_vec {
+            num_points += lsagsig.get_num_points();
+            num_scalars += lsagsig.get_num_scalars();
+        }
+        
+        num_points += 1;
+
+        println!("num points is {}", num_points);
+
+        println!("num scalars is {}", num_scalars);
+
+        let bits = (num_points * 2 + num_scalars) * 255;
+        
+        (bits/8) as f64
+ 
+    }
 
     pub fn prove(
         // crs
@@ -229,7 +257,7 @@ mod tests {
     use super::*;
     use std::cmp;
     use rand::distributions::{Distribution, Uniform};
-    use std::time::{Instant};
+    use std::time::Instant;
     use rand::Rng;
     use curve25519_dalek::constants;
     use sha2::Sha512;

@@ -33,6 +33,7 @@ fn main() {
 
     let (g, c_vec, p_vec, x_vec, e_vec) = MProve::gen_params(opt.anon_list_size, opt.own_list_size);
 
+    let mut proof_size: f64 = 0.0;
     let sim_start = Instant::now();
 
     for _i in 0..num_iter {        
@@ -46,6 +47,7 @@ fn main() {
         assert!(mprove_proof.verify().is_ok());
         ver_proof_end = Instant::now();
         total_ver_proof_duration += ver_proof_end.duration_since(ver_proof_start);
+        proof_size += mprove_proof.get_bytes();
       }
   
       let sim_end = Instant::now();
@@ -54,6 +56,7 @@ fn main() {
       println!("Options = {:?}", opt);
       println!("Average proof generation time = {:?}",
         total_gen_proof_duration.checked_div(num_iter).unwrap());
+      println!("Proof size = {:?} bytes", proof_size);
       println!("Average proof verification time = {:?}",
         total_ver_proof_duration.checked_div(num_iter).unwrap());
 
