@@ -1,0 +1,5 @@
+Total simulation time = 74.567386044s
+Options = Opt { anon_list_size: 45000, own_list_size: 20000, num_iter: 1 }
+Average proof generation time = 57.453281486s
+Proof size = 37440320 bytes
+Average proof verification time = 17.113787606s
